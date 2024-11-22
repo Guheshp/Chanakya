@@ -9,7 +9,10 @@ app.use(express.json())
 app.use(cookieparser())
 
 const userRouter = require("./router/user.router")
+const quizCollection = require("./router/quizcollection.router")
+
 app.use("/api", userRouter)
+app.use("/api", quizCollection)
 
 app.get("/test", (req, res) => {
     res.send("Everything working fine!")

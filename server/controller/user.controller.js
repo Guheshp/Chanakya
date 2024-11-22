@@ -1,6 +1,7 @@
 const { User } = require("../models/user.model");
 const bcrypt = require("bcrypt")
 const validateUser = require("../validator/user.validator");
+const jwt = require("jsonwebtoken")
 
 const createStudent = async (req, res) => {
     try {
@@ -77,7 +78,6 @@ const createAdmin = async (req, res) => {
     }
 }
 
-
 const generateAccessToken = async (user) => {
     const payload = {
         _id: user._id,
@@ -123,8 +123,26 @@ const login = async (req, res) => {
     }
 }
 
+const logOut = async (req, res) => {
+    try {
+        res.cookie("token", null, {
+            expires: new Date(Date.now())
+        })
+        res.status(200).json({
+            success: true,
+            message: "logout suuccessfull!"
+        })
+    } catch (error) {
+        res.status(400).json({
+            message: "ERROR" + error.message
+        })
+    }
+
+}
+
 module.exports = {
     createStudent,
     createAdmin,
-    login
+    login,
+    logOut
 }
